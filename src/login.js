@@ -55,7 +55,7 @@ function CheckForm() {
       />
       <TextField
         name="password"
-        label="Mật khẩu"
+        label="Mật khẩu "
         value={password}
         type="password"
         onChange={(value) => setPassword(value)}
