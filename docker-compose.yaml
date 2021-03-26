@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  amb:
+    image: ldviet92/huongnghieptre-frontend
+    environment:
+      - NODE_ENV=PROD
+    networks:
+      - root_app-tier
+
+networks:
+  root_app-tier:
+    external: true
