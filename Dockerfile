@@ -15,5 +15,9 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 3000
-CMD [ "npm", "run", "start" ]
+RUN npm run build
+
+RUN npm install -g serve
+
+# EXPOSE 3000
+CMD [ "serve", "-s", "build", "-l", "3000" ]
