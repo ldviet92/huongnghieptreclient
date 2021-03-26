@@ -5,9 +5,10 @@ services:
     image: ldviet92/huongnghieptre-frontend
     environment:
       - NODE_ENV=PROD
+    ports:
+      - 3000:3000
     networks:
       - root_app-tier
-
 networks:
   root_app-tier:
     external: true
