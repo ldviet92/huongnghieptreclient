@@ -10,7 +10,7 @@ steps:
       - name: docker_sock
         path: /var/run/docker.sock
     commands:
-      - docker build -t huongnghieptre-frontend -f Dockerfile .
+      - docker build -t huongnghieptre-frontend .
 
   - name: deploy
     image: docker/compose:latest
