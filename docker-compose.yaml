@@ -7,8 +7,8 @@ services:
       - NODE_ENV=PROD
     ports:
       - 3000:3000
-#     networks:
-#       - root_app-tier
-# networks:
-#   root_app-tier:
-#     external: true
+    networks:
+      - root_app-tier
+networks:
+  root_app-tier:
+    external: true
