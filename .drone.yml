@@ -4,13 +4,13 @@ type: docker
 name: default
 
 steps:
-    - name: build
-      image: docker:latest
-      volumes:
-        - name: docker_sock
-          path: /var/run/docker.sock
-      commands:
-        - docker build -t huongnghieptre-frontend .
+  - name: build
+    image: docker:latest
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t huongnghieptre-frontend -f Dockerfile .
 
   - name: deploy
     image: docker/compose:latest
