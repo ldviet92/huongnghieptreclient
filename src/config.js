@@ -6,7 +6,7 @@ env.development = {
 
 env.production = {
   env: "prod",
-  ApiHost: "https://api.huongnghieptre.vn/",
+  ApiHost: "http://api.huongnghieptre.vn/",
 };
 
 module.exports = env[process.env.NODE_ENV || "prod"];

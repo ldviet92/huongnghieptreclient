@@ -1,5 +1,6 @@
 import config from "./config";
 import util from "./util";
+
 class Store {
   async GET(path = "", params = {}) {
     let url = util.addParams(config.ApiHost + path, params);

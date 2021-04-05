@@ -9,7 +9,7 @@ export default function Step(props) {
     if (steps) {
       let st = [];
       for (let i = 0; i < steps.length; i++) {
-        st.push(<Steps.Item title={steps[i].Name} />);
+        st.push(<Steps.Item key={i} title={steps[i].Name} />);
       }
       console.log(steps, st);
       return st;
