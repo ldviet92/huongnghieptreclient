@@ -27,9 +27,10 @@ class Store {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       redirect: "follow", // manual, *follow, error
@@ -47,20 +48,213 @@ class Store {
         email: email,
         password: password,
       }
-    ).then((rs) => {
-      console.log(rs); // JSON data parsed by `data.json()` call
-      return rs;
-    });
+    )
+      .then((rs) => {
+        console.log(rs); // JSON data parsed by `data.json()` call
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async register(email, password, phone, fullname) {
+    let result = await this.POST(
+      "register",
+      {},
+      {
+        email: email,
+        password: password,
+        phone: phone,
+        fullname: fullname,
+      }
+    )
+      .then((rs) => {
+        console.log(rs); // JSON data parsed by `data.json()` call
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
     return result;
   }
 
   async getInfo(access_token) {
     let result = await this.GET("user/info", {
       access_token: access_token,
-    }).then((rs) => {
-      console.log(rs);
-      return rs;
-    });
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async getStep(access_token) {
+    let result = await this.GET("steps", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async getUserStep(access_token) {
+    let result = await this.GET("users/steps", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async updateUserStep(access_token, stepId, testId) {
+    let result = await this.POST(
+      "users/steps",
+      {
+        access_token: access_token,
+      },
+      {
+        step_id: stepId,
+        test_id: testId,
+      }
+    )
+      .then((rs) => {
+        console.log(rs); // JSON data parsed by `data.json()` call
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async getTest(access_token) {
+    let result = await this.GET("tests", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async getQuestions(access_token) {
+    let result = await this.GET("questions", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async listUserQuestions(access_token) {
+    let result = await this.GET("users/questions", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async calculatorPoint(access_token) {
+    let result = await this.GET("users/calculator", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async listUserPoint(access_token) {
+    let result = await this.GET("users/points", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async listPerstype() {
+    let result = await this.GET("perstionaltypes")
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async postResult(access_token, resultQuestion) {
+    let result = await this.POST(
+      "questions",
+      {
+        access_token: access_token,
+      },
+      {
+        result: resultQuestion,
+      }
+    )
+      .then((rs) => {
+        console.log(rs); // JSON data parsed by `data.json()` call
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
     return result;
   }
 }

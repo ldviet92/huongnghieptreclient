@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import util from "./util";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -8,18 +8,31 @@ import Register from "./register.js";
 import "rsuite/dist/styles/rsuite-default.css";
 import store from "./store";
 import { UserContext } from "./usercontext";
+import { Alert } from "rsuite";
+import errors from "./errors";
 
 function App() {
   let [user, setUser] = useState();
-  useEffect(async () => {
-    let info = await getInfo();
-    setUser(info);
-  });
+  let [uStep, setUStep] = useState();
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    if (!util.getCookie("access_token")) return;
+    let [u, err] = await getInfo();
+    if (err) return Alert.error(err);
+    setUser(u);
+
+    let [us, errus] = await getUserStep();
+    if (errus) return Alert.error(errus);
+    setUStep(us);
+  }
   let authed = !!util.getCookie("access_token");
 
   return (
     <Router>
-      <div className="container-fluid">
+      <div className="container">
         <Switch>
           <PrivateRoute exact path="/" authed={authed}>
             <Home />
@@ -40,26 +53,32 @@ function App() {
 
   function PrivateRoute({ component: Component, authed, ...rest }) {
     if (!authed) return (document.location = "/login");
-    console.log(user);
     return (
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={[user, uStep]}>
         <Route {...rest} render={(props) => <Component {...props} />} />
       </UserContext.Provider>
     );
   }
-}
 
-async function getInfo() {
-  if (!util.getCookie("access_token")) return;
-  let info = localStorage.getItem("user_info");
-  if (!info) {
-    let rs = await store.getInfo(util.getCookie("access_token"));
-    if (rs.status === 200) {
-      localStorage.setItem("user_info", JSON.stringify(rs.data));
-      return JSON.stringify(rs.data);
-    }
+  async function getInfo() {
+    if (!util.getCookie("access_token")) return;
+    let info = localStorage.getItem("user_info");
+    if (info) return [info, undefined];
+    let [rs, err] = await store.getInfo(util.getCookie("access_token"));
+    if (err) return [undefined, errors.CONNECT_ERROR];
+    if (rs.status !== 200) return [undefined, rs.error];
+
+    return [JSON.stringify(rs.data), undefined];
   }
-  return info;
+
+  async function getUserStep() {
+    if (!util.getCookie("access_token")) return;
+    let [rs, err] = await store.getUserStep(util.getCookie("access_token"));
+    if (err) return [undefined, errors.CONNECT_ERROR];
+    if (rs.status !== 200) return [undefined, rs.error];
+    if (rs.data == null) return [undefined, undefined];
+    return [JSON.stringify(rs.data), undefined];
+  }
 }
 
 function Logout() {

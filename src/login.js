@@ -79,8 +79,15 @@ function CheckForm() {
   );
   async function onLogin(email, password) {
     setIsLoading(true);
-    let rs = await store.login(email, password);
-    if (rs.status === 200) {
+    let [rs, err] = await store.login(email, password);
+    console.log(rs, err, err != undefined);
+    if (err != undefined) {
+      setIsLoading(false);
+      console.log(err);
+      setError(err.toString());
+      return;
+    }
+    if (rs != undefined && rs.status === 200) {
       let token = rs.data.token;
       util.setCookie("access_token", 30);
       document.cookie = "access_token=" + token;

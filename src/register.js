@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Schema,
   FormGroup,
@@ -6,8 +7,9 @@ import {
   Form,
   Button,
 } from "rsuite";
+import store from "./store";
 
-const { StringType, NumberType } = Schema.Types;
+const { StringType } = Schema.Types;
 const model = Schema.Model({
   fullname: StringType().isRequired("Vui lòng nhập họ tên"),
   email: StringType()
@@ -42,14 +44,48 @@ function TextField(props) {
   );
 }
 function CheckForm() {
+  let [email, setEmail] = useState();
+  let [password, setPassword] = useState();
+  let [phone, setPhone] = useState();
+  let [fullname, setFullname] = useState();
+  let [isLoading, setIsLoading] = useState(false);
+  let [error, setError] = useState();
   return (
     <Form model={model}>
-      <TextField name="fullname" label="Họ tên" />
-      <TextField name="email" label="Email" />
-      <TextField name="password" label="Mật khẩu" type="password" />
-      <TextField name="phone" label="Số điện thoại" />
+      <TextField
+        name="email"
+        label="Email"
+        value={email}
+        onChange={(val) => setEmail(val)}
+      />
+      <TextField
+        name="password"
+        label="Mật khẩu"
+        type="password"
+        value={password}
+        onChange={(val) => setPassword(val)}
+      />
+      <TextField
+        name="fullname"
+        label="Họ tên"
+        value={fullname}
+        onChange={(val) => setFullname(val)}
+      />
+      <TextField
+        name="phone"
+        label="Số điện thoại"
+        value={phone}
+        onChange={(val) => setPhone(val)}
+      />
+      <label className="text-danger small">{error}</label>
       <div className="text-center">
-        <Button appearance="primary" type="submit" color="red">
+        <Button
+          appearance="primary"
+          type="submit"
+          color="red"
+          onClick={() => onRegister(email, password, phone, fullname)}
+          loading={isLoading}
+        >
           Đăng Ký
         </Button>
       </div>
@@ -58,4 +94,21 @@ function CheckForm() {
       </div>
     </Form>
   );
+
+  async function onRegister() {
+    setIsLoading(true);
+    let [rs, err] = await store.register(email, password, phone, fullname);
+    if (err != undefined) {
+      setIsLoading(false);
+      console.log(err);
+      setError(err.toString());
+      return;
+    }
+    if (rs != undefined && rs.status === 200) {
+      window.location = "/login";
+    } else {
+      setError(rs.error);
+    }
+    setIsLoading(false);
+  }
 }

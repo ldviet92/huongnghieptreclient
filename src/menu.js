@@ -4,7 +4,7 @@ import logo from "./asset/images/huongnghieptre_logo.png";
 import { UserContext } from "./usercontext";
 import util from "./util";
 export default function Menu() {
-  let userstr = useContext(UserContext);
+  let [userstr, stepstr] = useContext(UserContext);
   let user = userstr ? JSON.parse(userstr) : {};
   return (
     <Navbar>
