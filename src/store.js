@@ -128,7 +128,7 @@ class Store {
     return result;
   }
 
-  async updateUserStep(access_token, stepId, testId) {
+  async updateUserStep(access_token, stepId, testId, questionId) {
     let result = await this.POST(
       "users/steps",
       {
@@ -137,6 +137,7 @@ class Store {
       {
         step_id: stepId,
         test_id: testId,
+        question_id: questionId,
       }
     )
       .then((rs) => {
@@ -192,6 +193,7 @@ class Store {
         console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
+
     return result;
   }
 

@@ -11,7 +11,6 @@ export default function Step(props) {
       for (let i = 0; i < steps.length; i++) {
         st.push(<Steps.Item key={i} title={steps[i].Name} />);
       }
-      console.log(steps, st);
       return st;
     }
   };

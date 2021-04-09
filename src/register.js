@@ -19,10 +19,9 @@ const model = Schema.Model({
     .isRequired("Vui lòng nhập số điện thoại")
     .maxLength(10, "Số điện thoại chưa chính xác")
     .minLength(10, "Số điện thoại chưa chính xác"),
-  password: StringType()
-    .isRequired("Vui lòng nhập mật khẩu")
-    .containsUppercaseLetter("Mật khẩu phải có chữ hoa")
-    .containsNumber("Mật khảu phải có số"),
+  password: StringType().isRequired("Vui lòng nhập mật khẩu"),
+  // .containsUppercaseLetter("Mật khẩu phải có chữ hoa")
+  // .containsNumber("Mật khảu phải có số"),
 });
 export default function Register() {
   return (
