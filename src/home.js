@@ -51,18 +51,22 @@ export default function Home() {
       if (uq) uqObj = keyBy(uq, "QuestionId");
       setResultsObj(uqObj);
     } else if (stepIndex == 2) {
-      let [pt, errpt] = await fetchPerstypes();
-      if (errpt) return Alert.error(errpt);
-      if (!pt) pt = [];
-      setPerstypes(pt);
-
-      let [p, err] = await fetchPoints();
-      if (err) return Alert.error(err);
-      if (!p) p = [];
-      setPoints(p);
+      fetchResult();
     }
 
     setStepIndex(stepIndex);
+  }
+
+  async function fetchResult() {
+    let [pt, errpt] = await fetchPerstypes();
+    if (errpt) return Alert.error(errpt);
+    // if (!pt) pt = [];
+    setPerstypes(pt);
+
+    let [p, err] = await fetchPoints();
+    if (err) return Alert.error(err);
+    // if (!p) p = [];
+    setPoints(p);
   }
 
   function getStepDetail(stepIndex) {
@@ -88,8 +92,6 @@ export default function Home() {
         std = (
           <Step2
             onNextStep={onNextStep}
-            step={step}
-            tests={tests}
             questions={shuffle(getQuestionByStepId(step.Id))}
           />
         );
@@ -103,8 +105,8 @@ export default function Home() {
           />
         );
         break;
-      case 4:
-        std = <div>4,5</div>;
+      case 3:
+        std = <div>Danh sách nghề</div>;
         break;
     }
     return std;
@@ -131,6 +133,9 @@ export default function Home() {
     );
     if (errup) return Alert.error("Lỗi hệ thống", errup);
     if (rsup.status !== 200) return Alert.error(rsup.error);
+    if (stepIndex + 1 == 2) {
+      fetchResult();
+    }
     setStepIndex(stepIndex + 1);
   };
 

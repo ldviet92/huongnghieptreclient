@@ -16,7 +16,7 @@ import util from "./util";
 let { Paragraph } = Placeholder;
 
 export default function Step2(props) {
-  let { questions, step } = props;
+  let { questions } = props;
   let [careers, setCareer] = useState([]);
   let [st, setSt] = useState(1);
 
@@ -38,9 +38,7 @@ export default function Step2(props) {
       qss.push(objQs[item]);
     });
     console.log(qss);
-    render = (
-      <Questions questions={qss} onNextStep={props.onNextStep} step={step} />
-    );
+    render = <Questions questions={qss} onNextStep={props.onNextStep} />;
   }
 
   return <div>{render}</div>;
@@ -50,7 +48,7 @@ function Questions(props) {
   let [objPoint, setObjPoint] = useState({});
   let [qsIndex, setQsIndex] = useState(0);
 
-  let { questions, step } = props;
+  let { questions } = props;
   if (!questions) return <div></div>;
 
   let onChange = (qsId, perstypeId, point) => {
@@ -88,7 +86,7 @@ function Questions(props) {
       if (errcal) return Alert.error("Lỗi hệ thống", errcal);
       if (cal.status !== 200) return Alert.error(cal.error);
 
-      props.onNextStep(step.Id);
+      props.onNextStep();
     }
   };
 

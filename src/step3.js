@@ -5,6 +5,7 @@ const { Line } = Progress;
 
 export default function Step3(props) {
   let { perstypes, points } = props;
+  console.log(perstypes, points);
   if (!perstypes || !points) return <div></div>;
   console.log(perstypes, points);
   let pointsHigh = [];
