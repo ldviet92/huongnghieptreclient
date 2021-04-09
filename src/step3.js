@@ -86,6 +86,7 @@ let PerstypeDetail = (props) => {
 };
 
 let line = (p, pt) => {
+  if (!p || !pt) return "";
   let lines = [];
   for (let i = 0; i < p.length; i++) {
     let point = p[i].Point;
