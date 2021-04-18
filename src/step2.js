@@ -59,7 +59,7 @@ function Questions(props) {
     };
     let objP = Object.assign({}, objPoint);
     setObjPoint(objP);
-    onNext();
+    // onNext();
   };
 
   let onNext = async () => {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import store from "./store";
 import util from "./util";
 import errors from "./errors";
@@ -9,7 +9,7 @@ import Step2 from "./step2";
 import Step3 from "./step3";
 import Step4 from "./step4";
 import { orderBy, findIndex, shuffle, keyBy, find } from "lodash";
-import { Alert, Loader, Placeholder } from "rsuite";
+import { Alert } from "rsuite";
 
 import { UserContext } from "./usercontext";
 
@@ -133,7 +133,6 @@ export default function Home() {
       PerstypeId: perstypeId,
     };
     setResultsObj(rsObj);
-    onNextStep();
   }
 
   let onNextStep = async () => {

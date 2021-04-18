@@ -1,11 +1,20 @@
-import { Button } from "rsuite";
-import { find, keyBy, filter } from "lodash";
+import { Button, Loader, Placeholder } from "rsuite";
+import { keyBy } from "lodash";
 
+let { Paragraph } = Placeholder;
 export default function step4(props) {
   let { careers, perstypes, points } = props;
   let perstypeObj = keyBy(perstypes, "Id");
 
-  if (!careers || !perstypes || !points) return <div>ksjd</div>;
+  if (!careers || !perstypes || !points)
+    return (
+      <div>
+        {" "}
+        <Paragraph rows={8}>
+          <Loader center content="loading" />
+        </Paragraph>
+      </div>
+    );
 
   let pointObj = keyBy(points, "PerstypeId");
   let caRow = [];

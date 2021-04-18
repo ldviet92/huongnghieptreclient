@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import store from "./store";
 import util from "./util";
-import { orderBy, findIndex, filter, find } from "lodash";
+import { findIndex, find } from "lodash";
 import { Alert, Loader, Placeholder } from "rsuite";
 import Question from "./question";
 import { UserContext } from "./usercontext";
