@@ -56,10 +56,6 @@ export default function Home() {
       fetchResult();
     } else if (stepIndex == 3) {
       fetchResult();
-
-      let [ca, errca] = await fetchCareers();
-      if (errca) return Alert.error(errca);
-      setCareers(ca);
     }
 
     setStepIndex(stepIndex);
@@ -74,6 +70,10 @@ export default function Home() {
     if (err) return Alert.error(err);
     // if (!p) p = [];
     setPoints(p);
+
+    let [ca, errca] = await fetchCareers();
+    if (errca) return Alert.error(errca);
+    setCareers(ca);
   }
 
   function getStepDetail(stepIndex) {
@@ -145,7 +145,7 @@ export default function Home() {
     );
     if (errup) return Alert.error("Lỗi hệ thống", errup);
     if (rsup.status !== 200) return Alert.error(rsup.error);
-    if (stepIndex + 1 == 2) {
+    if (stepIndex + 1 >= 2) {
       fetchResult();
     }
     setStepIndex(stepIndex + 1);

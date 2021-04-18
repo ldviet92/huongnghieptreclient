@@ -114,7 +114,7 @@ export default function Step1(props) {
       window.scrollTo({ top: 0 });
     } else {
       props.onNextStep(userStep.StepId);
-      Alert.success("Sang chuong moi");
+      // Alert.success("Sang chuong moi");
     }
   }
 }

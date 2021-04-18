@@ -5,7 +5,7 @@ let { Paragraph } = Placeholder;
 export default function step4(props) {
   let { careers, perstypes, points } = props;
   let perstypeObj = keyBy(perstypes, "Id");
-
+  console.log(careers, perstypes, points);
   if (!careers || !perstypes || !points)
     return (
       <div>
