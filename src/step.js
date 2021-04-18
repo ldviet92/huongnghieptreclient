@@ -5,7 +5,6 @@ export default function Step(props) {
 
   useEffect(() => {}, []);
   if (!steps || !stepIndex) return <div></div>;
-  console.log(steps, stepIndex);
   let stepTemp = () => {
     if (steps) {
       let st = [];

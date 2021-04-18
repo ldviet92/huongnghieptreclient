@@ -15,7 +15,9 @@ export default function Menu() {
       </Navbar.Header>
       <Navbar.Body>
         <Nav>
-          <Nav.Item icon={<Icon icon="home" />}>Home</Nav.Item>
+          <Nav.Item href="/" icon={<Icon icon="home" />}>
+            Home
+          </Nav.Item>
           {/* <Nav.Item href="/register">Register</Nav.Item> */}
           {/* <Nav.Item>Products</Nav.Item> */}
         </Nav>

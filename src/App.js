@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./home.js";
 import Login from "./login.js";
 import Register from "./register.js";
+import Admin from "./admin/admin.js";
 import "rsuite/dist/styles/rsuite-default.css";
 import store from "./store";
 import { UserContext } from "./usercontext";
@@ -46,6 +47,9 @@ function App() {
           <Route path="/logout">
             <Logout />
           </Route>
+          <PrivateRoute path="/admin" authed={authed}>
+            <Admin />
+          </PrivateRoute>
         </Switch>
       </div>
     </Router>

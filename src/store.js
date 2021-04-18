@@ -197,6 +197,38 @@ class Store {
     return result;
   }
 
+  async listUser(access_token) {
+    let result = await this.GET("users", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+
+    return result;
+  }
+
+  async adminAuth(access_token) {
+    let result = await this.GET("admin/auth", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+
+    return result;
+  }
+
   async calculatorPoint(access_token) {
     let result = await this.GET("users/calculator", {
       access_token: access_token,
@@ -229,6 +261,21 @@ class Store {
 
   async listPerstype() {
     let result = await this.GET("perstionaltypes")
+      .then((rs) => {
+        console.log(rs);
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async listCareer(access_token) {
+    let result = await this.GET("careers", {
+      access_token: access_token,
+    })
       .then((rs) => {
         console.log(rs);
         return [rs, undefined];

@@ -5,9 +5,7 @@ const { Line } = Progress;
 
 export default function Step3(props) {
   let { perstypes, points } = props;
-  console.log(perstypes, points);
   if (!perstypes || !points) return <div></div>;
-  console.log(perstypes, points);
   let pointsHigh = [];
   for (let i = 0; i < points.length; i++) {
     if (points[i].Point > 5) {
@@ -16,11 +14,11 @@ export default function Step3(props) {
   }
   pointsHigh = orderBy(pointsHigh, "Point", "desc");
   let pers = map(pointsHigh, (item) => {
-    return <Personality uPoint={item} perstypes={perstypes} />;
+    return <Personality key={item.Id} uPoint={item} perstypes={perstypes} />;
   });
 
   let perDetails = map(pointsHigh, (item) => {
-    return <PerstypeDetail uPoint={item} perstypes={perstypes} />;
+    return <PerstypeDetail key={item.Id} uPoint={item} perstypes={perstypes} />;
   });
   return (
     <div className="mt-5">
@@ -44,15 +42,17 @@ function Personality(props) {
   let { uPoint, perstypes } = props;
 
   let perstype = find(perstypes, ["Id", uPoint.PerstypeId]);
-  console.log(uPoint, perstypes, perstype);
   return (
     <div>
       <h5>
         <span style={{ color: getColor(uPoint.Point) }}>{uPoint.Point}</span>{" "}
         {perstype.Name}
       </h5>
-      <p>{parse(perstype.GeneralFeatures)}</p>
-      <p>{parse(perstype.Jobs)}</p>
+      {parse(perstype.GeneralFeatures)}
+      {parse(perstype.Jobs)}
+      <Button className="mb-4" appearance="link" onClick={props.onNextStep}>
+        Khám phá thêm các công việc tương tự &gt;
+      </Button>
     </div>
   );
 }
@@ -88,6 +88,7 @@ let PerstypeDetail = (props) => {
 let line = (p, pt) => {
   if (!p || !pt) return "";
   let lines = [];
+  p = orderBy(p, "Point", "desc");
   for (let i = 0; i < p.length; i++) {
     let point = p[i].Point;
     let percent = parseInt((point / 33) * 100);

@@ -7,6 +7,7 @@ import Step from "./step";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
+import Step4 from "./step4";
 import { orderBy, findIndex, shuffle, keyBy, find } from "lodash";
 import { Alert, Loader, Placeholder } from "rsuite";
 
@@ -21,6 +22,7 @@ export default function Home() {
   let [resultsObj, setResultsObj] = useState([]);
   let [perstypes, setPerstypes] = useState();
   let [points, setPoints] = useState();
+  let [careers, setCareers] = useState();
 
   useEffect(async () => {
     fetchData();
@@ -35,10 +37,10 @@ export default function Home() {
       let uStep = JSON.parse(stepstr);
       stepIndex = findIndex(st, ["Id", uStep.StepId]);
     }
+
     if (stepIndex == 0 || stepIndex == 1) {
       let [ts, errts] = await fetchTest();
       if (errts) return Alert.error(errqs);
-      console.log(ts);
       setTests(ts);
 
       let [qs, errqs] = await fetchQuestion();
@@ -52,6 +54,12 @@ export default function Home() {
       setResultsObj(uqObj);
     } else if (stepIndex == 2) {
       fetchResult();
+    } else if (stepIndex == 3) {
+      fetchResult();
+
+      let [ca, errca] = await fetchCareers();
+      if (errca) return Alert.error(errca);
+      setCareers(ca);
     }
 
     setStepIndex(stepIndex);
@@ -60,7 +68,6 @@ export default function Home() {
   async function fetchResult() {
     let [pt, errpt] = await fetchPerstypes();
     if (errpt) return Alert.error(errpt);
-    // if (!pt) pt = [];
     setPerstypes(pt);
 
     let [p, err] = await fetchPoints();
@@ -75,7 +82,6 @@ export default function Home() {
     }
     let step = steps[stepIndex];
     let std;
-    console.log(stepIndex);
     switch (stepIndex) {
       case 0:
         std = (
@@ -106,7 +112,14 @@ export default function Home() {
         );
         break;
       case 3:
-        std = <div>Danh sách nghề</div>;
+        std = (
+          <Step4
+            perstypes={perstypes}
+            careers={careers}
+            points={points}
+            onBackStep={onBackStep}
+          />
+        );
         break;
     }
     return std;
@@ -114,13 +127,13 @@ export default function Home() {
 
   function onChangeResult(questionId, perstypeId, point) {
     let rsObj = Object.assign({}, resultsObj);
-    console.log(rsObj, questionId, perstypeId, point);
     rsObj[questionId] = {
       QuestionId: questionId,
       Point: point,
       PerstypeId: perstypeId,
     };
     setResultsObj(rsObj);
+    onNextStep();
   }
 
   let onNextStep = async () => {
@@ -137,6 +150,12 @@ export default function Home() {
       fetchResult();
     }
     setStepIndex(stepIndex + 1);
+    window.scrollTo({ top: 0 });
+  };
+
+  let onBackStep = async () => {
+    setStepIndex(stepIndex - 1);
+    window.scrollTo({ top: 0 });
   };
 
   function getQuestionByStepId(stepId) {
@@ -214,6 +233,15 @@ async function fetchPerstypes() {
 
 async function fetchPoints() {
   let [rs, err] = await store.listUserPoint(util.getCookie("access_token"));
+  if (err) return [undefined, err];
+  if (rs.status !== 200) return [undefined, rs.error];
+  let data = rs.data;
+  if (data == null) return [undefined, errors.NO_DATA];
+  return [data, undefined];
+}
+
+async function fetchCareers() {
+  let [rs, err] = await store.listCareer(util.getCookie("access_token"));
   if (err) return [undefined, err];
   if (rs.status !== 200) return [undefined, rs.error];
   let data = rs.data;

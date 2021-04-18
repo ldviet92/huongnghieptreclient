@@ -27,12 +27,21 @@ export default function Question(props) {
         <Radio value={3}>Hoàn toàn đúng</Radio>
       </RadioGroup>
       <hr />
-      <div className="d-flex justify-content-between mt-4">
-        <Button disabled={questionIndex <= 1} onClick={props.onBack}>
+      <div className="d-flex justify-content-center mt-4">
+        <Button
+          className="mr-5"
+          color="blue"
+          disabled={questionIndex <= 1}
+          onClick={props.onBack}
+        >
           <Icon icon="long-arrow-left" />
           {/* Quay lại */}
         </Button>
-        <Button disabled={point == undefined} onClick={props.onNext}>
+        <Button
+          color="blue"
+          disabled={point == undefined}
+          onClick={props.onNext}
+        >
           {/* Tiếp tục */}
           <Icon icon="long-arrow-right" />
         </Button>
