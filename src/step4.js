@@ -1,11 +1,10 @@
 import { Button, Loader, Placeholder } from "rsuite";
-import { keyBy } from "lodash";
+import { keyBy, groupBy, orderBy } from "lodash";
 
 let { Paragraph } = Placeholder;
 export default function step4(props) {
   let { careers, perstypes, points } = props;
   let perstypeObj = keyBy(perstypes, "Id");
-  console.log(careers, perstypes, points);
   if (!careers || !perstypes || !points)
     return (
       <div>
@@ -16,17 +15,23 @@ export default function step4(props) {
       </div>
     );
 
-  let pointObj = keyBy(points, "PerstypeId");
+  // let pointObj = keyBy(points, "PerstypeId");
+  points = orderBy(points, "Point", "desc");
+  let carrObj = groupBy(careers, "PerstypeId");
   let caRow = [];
-  for (let i = 0; i < careers.length; i++) {
-    let ca = careers[i];
-    if (pointObj[ca.PerstypeId].Point < 5) continue;
-    caRow.push(
-      <tr key={i}>
-        <td>{ca.Name}</td>
-        <td>{perstypeObj[ca.PerstypeId].Name}</td>
-      </tr>
-    );
+  for (let i = 0; i < points.length; i++) {
+    let point = points[i];
+    if (point.Point < 5) continue;
+    let cas = carrObj[point.PerstypeId];
+    for (let j = 0; j < cas.length; j++) {
+      let ca = cas[j];
+      caRow.push(
+        <tr key={i + "" + j}>
+          <td>{ca.Name}</td>
+          <td>{perstypeObj[ca.PerstypeId].Name}</td>
+        </tr>
+      );
+    }
   }
 
   return (

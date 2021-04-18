@@ -175,7 +175,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="mb-5">
       <Menu />
       <Step steps={steps} stepIndex={stepIndex} />
       {getStepDetail(stepIndex)}
