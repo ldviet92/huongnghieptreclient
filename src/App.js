@@ -6,6 +6,8 @@ import Home from "./home.js";
 import Login from "./login.js";
 import Register from "./register.js";
 import Admin from "./admin/admin.js";
+import CareerGroup from "./admin/careerGroup.js";
+import Career from "./admin/career.js";
 import "rsuite/dist/styles/rsuite-default.css";
 import store from "./store";
 import { UserContext } from "./usercontext";
@@ -47,6 +49,13 @@ function App() {
           <Route path="/logout">
             <Logout />
           </Route>
+          <PrivateRoute path="/admin/career-groups" authed={authed}>
+            <CareerGroup />
+          </PrivateRoute>
+          <PrivateRoute path="/admin/careers" authed={authed}>
+            <Career />
+          </PrivateRoute>
+
           <PrivateRoute path="/admin" authed={authed}>
             <Admin />
           </PrivateRoute>

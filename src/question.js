@@ -12,7 +12,7 @@ export default function Question(props) {
     );
 
   return (
-    <div className="d-flex flex-column mt-5">
+    <div className="d-flex flex-column">
       <span>{question.Question}</span>
       <RadioGroup
         name="radioList"

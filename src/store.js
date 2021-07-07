@@ -51,11 +51,10 @@ class Store {
       }
     )
       .then((rs) => {
-        console.log(rs); // JSON data parsed by `data.json()` call
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -73,11 +72,10 @@ class Store {
       }
     )
       .then((rs) => {
-        console.log(rs); // JSON data parsed by `data.json()` call
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -88,11 +86,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -103,11 +100,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -118,11 +114,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -141,11 +136,10 @@ class Store {
       }
     )
       .then((rs) => {
-        console.log(rs); // JSON data parsed by `data.json()` call
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -156,11 +150,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -171,11 +164,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -186,11 +178,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
 
@@ -202,11 +193,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
 
@@ -218,14 +208,12 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
-
     return result;
   }
 
@@ -234,11 +222,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -249,11 +236,10 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -262,11 +248,10 @@ class Store {
   async listPerstype() {
     let result = await this.GET("perstionaltypes")
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
@@ -277,15 +262,104 @@ class Store {
       access_token: access_token,
     })
       .then((rs) => {
-        console.log(rs);
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;
   }
+
+
+  async createCareer(access_token, data) {
+    let result = await this.POST(
+      "careers",
+      {
+        access_token: access_token,
+      },
+      data
+    )
+      .then((rs) => {
+        if (rs.status != 200) return [undefined, rs.error];
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async updateCareer(access_token, data) {
+    let result = await this.POST(
+      "careers/"+data.Id,
+      {
+        access_token: access_token,
+      },
+      data
+    )
+      .then((rs) => {
+        if (rs.status != 200) return [undefined, rs.error];
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+
+
+  async listCareerGroup(access_token) {
+    let result = await this.GET("career-groups", {
+      access_token: access_token,
+    })
+      .then((rs) => {
+        if (rs.status != 200) return [undefined, rs.error];
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async createCareerGroup(access_token, data) {
+    let result = await this.POST(
+      "career-groups",
+      {
+        access_token: access_token,
+      },
+      data
+    )
+      .then((rs) => {
+        if (rs.status != 200) return [undefined, rs.error];
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
+  async updateCareerGroup(access_token, data) {
+    let result = await this.POST(
+      "career-groups/"+data.Id,
+      {
+        access_token: access_token,
+      },
+      data
+    )
+      .then((rs) => {
+        if (rs.status != 200) return [undefined, rs.error];
+        return [rs, undefined];
+      })
+      .catch((err) => {
+        return [undefined, JSON.stringify(err)];
+      });
+    return result;
+  }
+
 
   async postResult(access_token, resultQuestion) {
     let result = await this.POST(
@@ -298,11 +372,10 @@ class Store {
       }
     )
       .then((rs) => {
-        console.log(rs); // JSON data parsed by `data.json()` call
+        if (rs.status != 200) return [undefined, rs.error];
         return [rs, undefined];
       })
       .catch((err) => {
-        console.log("err", err);
         return [undefined, JSON.stringify(err)];
       });
     return result;

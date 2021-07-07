@@ -16,7 +16,7 @@ export default function Step(props) {
   };
 
   return (
-    <div className="d-flex mt-4">
+    <div className="card mt-4">
       <div className="d-none d-sm-block justify-content-center w-100 p-3">
         <Steps current={stepIndex} className="w-100">
           {stepTemp()}

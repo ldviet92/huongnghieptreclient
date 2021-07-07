@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Menu from "./../menu.js";
+import Menu from "./menu.js";
 import store from "./../store.js";
 import util from "./../util";
 import { Alert } from "rsuite";
@@ -15,6 +15,7 @@ export default function Admin(props) {
 
   async function fetchData() {
     let [ad, errA] = await adminAuth();
+    if(errA) return Alert.error(errA)
     if (ad) {
       setIsAdmin(true);
     }
@@ -36,11 +37,11 @@ export default function Admin(props) {
       <table className="table table-bordered mt-5">
         <thead>
           <tr className="text-center font-weight-bold">
-            <td>Tên</td>
-            <td>Email</td>
-            <td>Sdt</td>
-            <td>Trạng thái</td>
-            <td>Ngày tạo</td>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Sdt</th>
+            <th>Trạng thái</th>
+            <th>Ngày tạo</th>
           </tr>
         </thead>
         <tbody>{userRender(users)}</tbody>

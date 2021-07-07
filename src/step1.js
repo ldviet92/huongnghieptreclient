@@ -40,11 +40,14 @@ export default function Step1(props) {
   let test = find(tests, ["Id", question.TestId]);
 
   return (
-    <div className="mt-4">
-      <span className="h4">
+    <div className="card mt-4">
+    <div className="card-header">
+   <h4 className="card-title">
         {test.Index}, {test.Name}
-      </span>
-      <Question
+      </h4>
+    </div>
+  <div className="card-body">
+<Question
         key={Math.random()}
         question={question}
         questionIndex={findIndex(questions, ["Id", question.Id])}
@@ -53,6 +56,7 @@ export default function Step1(props) {
         onNext={onNext}
         onBack={onBack}
       />
+    </div> 
     </div>
   );
 

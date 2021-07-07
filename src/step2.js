@@ -127,7 +127,8 @@ function CareerList(props) {
   }
 
   return (
-    <div>
+    <div className="card mt-5">
+    <div className="card-body">
       <CheckboxGroup
         className="row no-gutters"
         name="checkboxList"
@@ -142,6 +143,7 @@ function CareerList(props) {
         </Button>
       </div>
     </div>
+    </div>
   );
 }
 
@@ -155,7 +157,8 @@ function Question(props) {
       </Paragraph>
     );
   return (
-    <div className="d-flex flex-column mt-5">
+    <div className="card d-flex flex-column mt-5">
+    <div className="card-body">
       <span>Mức độ quan tâm nghề {question.Question}</span>
       <RadioGroup
         name="radioList"
@@ -189,6 +192,7 @@ function Question(props) {
           <Icon icon="long-arrow-right" />
         </Button>
       </div>
+    </div>
     </div>
   );
 }
