@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import store from "./../store.js";
-import { Alert, Drawer, Icon, TagPicker } from "rsuite";
+import { Alert, Drawer, Icon, Uploader, Loader } from "rsuite";
 import util from "./../util";
 import Menu from "./menu.js";
 import Select from "react-select";
-import {get} from 'lodash';
+import { get, keyBy, map } from "lodash";
+import XLSX from "xlsx";
 
 export default function Career(props) {
   let [careerGroups, setCareerGroups] = useState([]);
   let [careers, setCareers] = useState([]);
   let [objCg, setObjCg] = useState({});
+  let [isLoading, setIsLoading] = useState(false)
+  let isMounted = true;
 
   useEffect(() => {
-    let isMounted = true;
     if (isMounted) {
       fetchCareerGroup();
       fetchCareer();
@@ -55,10 +57,65 @@ export default function Career(props) {
     fetchCareer();
   }
 
+  let upCareer = async (data) => {
+    console.log("send");
+    let [rs, err] = await store.createCareer(
+      util.getCookie("access_token"),
+      data
+    );
+    if (err) return Alert.error(err);
+  };
+
   let cag = (cgIds) => {
-    let ids = cgIds.split(",")
-    let val =  ids.map((id) => get(objCg[id],'Name'));
-    return val.toString()
+    let ids = cgIds.split(",");
+    let val = ids.map((id) => get(objCg[id], "Name"));
+    return val.toString();
+  };
+
+  let uploadFileExcel = (e) => {
+    var reader = new FileReader();
+    let rs = [];
+    let objCgCode = keyBy(careerGroups, "Code");
+    console.log("vao day");
+    setIsLoading(true)
+    reader.onload = function (e) {
+      var data = e.target.result;
+      let readedData = XLSX.read(data, { type: "binary" });
+      const wsname = readedData.SheetNames[0];
+      const ws = readedData.Sheets[wsname];
+      /* Convert array to json*/
+      const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      dataParse.splice(0, 1);
+      let rs = [];
+      for (let i = 0; i < dataParse.length; i++) {
+        let val = dataParse[i];
+        if (!val[3]) continue;
+        let cgIds = val[3]
+          .split(",")
+          .map((i) => get(objCgCode[i], "Id"))
+          .toString();
+        let item = {
+          Code: val[0].toString(),
+          Name: val[1],
+          Status: val[2],
+          CareerGroupIds: cgIds,
+        };
+        rs.push(item);
+      }
+      console.log(rs);
+
+      for (let i = 0; i < rs.length; i++) {
+        setTimeout(() => {
+          upCareer(rs[i]);
+          if (i == rs.length -1 ) {
+            fetchCareer();
+            setIsLoading(false)
+          }
+        }, 100);
+      }
+    };
+    reader.readAsBinaryString(e.target.files[0]);
+    console.log(reader);
   };
 
   let careerRows = () => {
@@ -80,16 +137,33 @@ export default function Career(props) {
     ));
   };
 
+ let loader = () => {
+   if(isLoading){
+        return <Loader content="loading" />
+   }
+ }
+
   return (
     <div>
       <Menu />
       <div className="mt-5">
         <h4>Công việc</h4>
-        <div>
-          <EditCareer
-            upsertCareer={(data) => upsertCareer(data)}
-            careerGroups={careerGroups}
-          />
+        <div className="d-flex justify-content-end">
+          <div className="col-auto">
+            <input
+              type="file"
+              className=""
+              onChange={(e) => uploadFileExcel(e)}
+            />
+    {loader()}
+          </div>
+          
+          <div className="col-auto">
+            <EditCareer
+              upsertCareer={(data) => upsertCareer(data)}
+              careerGroups={careerGroups}
+            />
+          </div>
         </div>
         <table className="table mt-2">
           <thead>
@@ -151,7 +225,6 @@ let EditCareer = (props) => {
         obj[cur.Id] = cur;
         return obj;
       }, {});
-
 
       let tmp = cgIds.map((id) => {
         if (objcg[id]) {
